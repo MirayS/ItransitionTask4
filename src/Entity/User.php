@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Nullable;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -43,10 +45,33 @@ class User implements UserInterface
      */
     private $isEnabled;
 
+    /**
+     * @var DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $lastLogInDate;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(type="datetime")
+     */
+    private $registerDate;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $name;
+
+
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
+
 
     public function getIsEnabled(): bool
     {
@@ -131,5 +156,59 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getLastLogInDate(): ?DateTime
+    {
+        return $this->lastLogInDate;
+    }
+
+    /**
+     * @param DateTime $lastLogInDate
+     * @return User
+     */
+    public function setLastLogInDate(DateTime $lastLogInDate): self
+    {
+        $this->lastLogInDate = $lastLogInDate;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getRegisterDate(): ?DateTime
+    {
+        return $this->registerDate;
+    }
+
+    /**
+     * @param DateTime $registerDate
+     * @return User
+     */
+    public function setRegisterDate(DateTime $registerDate): self
+    {
+        $this->registerDate = $registerDate;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return User
+     */
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+        return $this;
     }
 }

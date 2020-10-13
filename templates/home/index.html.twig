@@ -3,18 +3,56 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'E:/Projects/ItransitionTask4/WebApp/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'E:/Projects/ItransitionTask4/WebApp/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+<div class="row">
+    <div class="col s12">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">Users</span>
+                <form method="post" id="myForm" action="{{ url('homeForm') }}">
+                    <button type="submit" name="action" value="unblock" class="waves-effect waves-teal btn"><i class="fas fa-user" title="Unblock"></i></button>
+                    <button type="submit" name="action" value="block" class="waves-effect waves-teal  btn"><i class="fas fa-ban" title="Block"></i></button>
+                    <button type="submit" name="action" value="remove" class="waves-effect waves-teal  btn"><i class="fas fa-user-times" title="Remove"></i></button>
+                    <table id="dataTable">
+                        <thead>
+                        <tr>
+                            <th><label><input type="checkbox" id="selectAllCheckbox" onchange="selectAll()" /><span></span></label></th>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Last LogIn Date</th>
+                            <th>Registration Date</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td><label><input type="checkbox" name="user{{ user.id }}"><span/></label></td>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.lastLogInDate | date }}</td>
+                                <td>{{ user.registerDate | date }}</td>
+                                <td>{{ user.isEnabled ? "Unblocked" : "Blocked"}}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        function selectAll() {
+            let table = document.getElementById ('dataTable');
+            let checkboxes = table.querySelectorAll ('input[type=checkbox]');
+            let val = checkboxes[0].checked;
+            for (let checkbox of checkboxes) checkbox.checked = val;
+        }
+    </script>
 {% endblock %}

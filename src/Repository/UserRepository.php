@@ -36,6 +36,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function blockUser(User $user): void
+    {
+        $user->setIsEnabled(false);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+
+    public function unblockUser(User $user): void
+    {
+        $user->setIsEnabled(true);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+
+    public function removeUser(User $user): void
+    {
+        $this->_em->remove($user);
+        $this->_em->flush();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

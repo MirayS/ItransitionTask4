@@ -74,6 +74,13 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
+        if ($user instanceof User && !$user->getIsEnabled())
+        {
+            throw new CustomUserMessageAuthenticationException('Account is disabled.');
+        }
+        $user->setLastLogInDate(new \DateTime());
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
         return $user;
     }
 
@@ -95,6 +102,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
+
+
 
         return new RedirectResponse($this->urlGenerator->generate('home'));
 

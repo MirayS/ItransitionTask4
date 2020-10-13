@@ -5,7 +5,9 @@
     {% block stylesheets %}{% endblock %}
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
@@ -16,16 +18,18 @@
 
             <ul id="nav-mobile" class="right hide-on-med-and-down">
                 {% if app.user%}
-                    <li><a href="/logout">Выйти</a></li>
+                    <li><a href="/logout">Logout</a></li>
                 {% else %}
-                    <li><a href="/login">Войти</a></li>
-                    <li><a href="/register">Регистрация</a></li>
+                    <li><a href="/login">Sign In</a></li>
+                    <li><a href="/register">Register</a></li>
                 {% endif %}
             </ul>
         </div>
     </nav>
+    <div class="container">
+        {% block body %}{% endblock %}
 
-    {% block body %}{% endblock %}
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     {% block javascripts %}{% endblock %}
