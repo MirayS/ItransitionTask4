@@ -48,6 +48,13 @@ class HomeController extends AbstractController
                         $userRepository->unblockUser($user);
                         break;
                     case "remove":
+                        $authUser = $this->getUser();
+                        if ($authUser instanceof User && $authUser == $user)
+                        {
+                            $this->get('security.token_storage')->setToken(null);
+                            $request->getSession()->invalidate();
+                        }
+
                         $userRepository->removeUser($user);
                         break;
                 }
